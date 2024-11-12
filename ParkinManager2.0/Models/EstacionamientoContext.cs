@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.Xml;
 
 namespace Estacionamiento.Models
 {
@@ -17,7 +16,7 @@ namespace Estacionamiento.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-CUKE023\\MSSQLSERVER01, Initial Catalog = EstacionamientoDB;" + "Encrypt = ture;" + "TrustServerCertificate = true;" + "Integrated Security = ture");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-CUKE023\\MSSQLSERVER01;Initial Catalog=EstacionamientoDB;Encrypt=true;TrustServerCertificate=true;Integrated Security=True;");
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,8 +25,10 @@ namespace Estacionamiento.Models
             modelBuilder.Entity<Vehiculo>().HasOne(ve => ve.Estacionamiento).WithMany(es => es.Plaza).HasForeignKey(ve => ve.EstacionamientoId);
             modelBuilder.Entity<Ticket>().HasOne(tik => tik.Estacionamiento).WithMany(es => es.Tickets).HasForeignKey( tik => tik.EstacionamientoId);
             modelBuilder.Entity<Administrador>().HasOne(admin => admin.Estacionamiento).WithOne(es => es.Administrador).HasForeignKey<Administrador>(admin => admin.EstacionamientoId);
-
-
+            modelBuilder.Entity<Cliente>().HasMany(c => c.Vehiculos).WithOne(v => v.Dueño).HasForeignKey(v => v.ClienteID);
+            modelBuilder.Entity<Ticket>().HasOne(tik => tik.Cliente).WithMany(cli => cli.Tickets).HasForeignKey(tik => tik.ClienteId);
+            modelBuilder.Entity<Ticket>().HasOne(tik => tik.Vehiculo).WithOne(ve => ve.Ticket).HasForeignKey<Ticket>(tik => tik.VehiculoId);
+            modelBuilder.Entity<Ticket>().Property(t => t.Tarifa).HasColumnType("decimal(18,2)");
         }
 
     }

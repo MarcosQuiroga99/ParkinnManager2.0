@@ -8,7 +8,7 @@ namespace Estacionamiento.Models
         public int Id { get; set; }
         public DateTime Ingreso { get; set; }
         public DateTime Salida { get; set; }
-
+        public string VehiculoId { get; set; }
         public Vehiculo? Vehiculo { get; set; }
 
         public decimal? Tarifa { get; set; }
@@ -16,7 +16,8 @@ namespace Estacionamiento.Models
         public int EstacionamientoId { get; set; }
 
         public Estacionamiento? Estacionamiento { get; set; }
-
+        public int ClienteId { get; set; } 
+        public Cliente? Cliente { get; set; }
 
     }
 }

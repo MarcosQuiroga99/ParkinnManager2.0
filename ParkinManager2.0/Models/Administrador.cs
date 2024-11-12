@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ParkinManager2._0.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Estacionamiento.Models
 {
-    public class Administrador
+    public class Administrador : Usuario
     {
-        [Key]
+       
         public string? Legajo {  get; set; }
         public int EstacionamientoId { get; set; }
         public Estacionamiento? Estacionamiento { get; set; }
