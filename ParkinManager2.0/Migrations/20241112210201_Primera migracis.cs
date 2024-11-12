@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ParkinManager2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class Primeramigracion : Migration
+    public partial class Primeramigracis : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,7 +65,7 @@ namespace ParkinManager2._0.Migrations
                         column: x => x.EstacionamientoId,
                         principalTable: "estacionamientos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,7 +91,7 @@ namespace ParkinManager2._0.Migrations
                         column: x => x.EstacionamientoId,
                         principalTable: "estacionamientos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,9 +99,9 @@ namespace ParkinManager2._0.Migrations
                 columns: table => new
                 {
                     Patente = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoDeVehiculo = table.Column<int>(type: "int", nullable: false),
+                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoDeVehiculo = table.Column<int>(type: "int", nullable: true),
                     ClienteID = table.Column<int>(type: "int", nullable: false),
                     EstacionamientoId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -113,13 +113,13 @@ namespace ParkinManager2._0.Migrations
                         column: x => x.ClienteID,
                         principalTable: "cliente",
                         principalColumn: "Dni",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_vehiculos_estacionamientos_EstacionamientoId",
                         column: x => x.EstacionamientoId,
                         principalTable: "estacionamientos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,19 +143,19 @@ namespace ParkinManager2._0.Migrations
                         column: x => x.ClienteId,
                         principalTable: "cliente",
                         principalColumn: "Dni",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ticket_estacionamientos_EstacionamientoId",
                         column: x => x.EstacionamientoId,
                         principalTable: "estacionamientos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ticket_vehiculos_VehiculoId",
                         column: x => x.VehiculoId,
                         principalTable: "vehiculos",
                         principalColumn: "Patente",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ParkinManager2._0.Migrations
 {
     [DbContext(typeof(EstacionamientoContext))]
-    [Migration("20241112180703_Primera migracion")]
-    partial class Primeramigracion
+    [Migration("20241112210201_Primera migracis")]
+    partial class Primeramigracis
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,12 +202,14 @@ namespace ParkinManager2._0.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Marca")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Modelo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoDeVehiculo")
+                    b.Property<int?>("TipoDeVehiculo")
                         .HasColumnType("int");
 
                     b.HasKey("Patente");
@@ -224,7 +226,7 @@ namespace ParkinManager2._0.Migrations
                     b.HasOne("Estacionamiento.Models.Estacionamiento", "Estacionamiento")
                         .WithOne("Administrador")
                         .HasForeignKey("Estacionamiento.Models.Administrador", "EstacionamientoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Estacionamiento");
@@ -235,7 +237,7 @@ namespace ParkinManager2._0.Migrations
                     b.HasOne("Estacionamiento.Models.Estacionamiento", "Estacionamiento")
                         .WithMany("Clientes")
                         .HasForeignKey("EstacionamientoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Estacionamiento");
@@ -246,19 +248,19 @@ namespace ParkinManager2._0.Migrations
                     b.HasOne("Estacionamiento.Models.Cliente", "Cliente")
                         .WithMany("Tickets")
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Estacionamiento.Models.Estacionamiento", "Estacionamiento")
                         .WithMany("Tickets")
                         .HasForeignKey("EstacionamientoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Estacionamiento.Models.Vehiculo", "Vehiculo")
                         .WithOne("Ticket")
                         .HasForeignKey("Estacionamiento.Models.Ticket", "VehiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -273,13 +275,13 @@ namespace ParkinManager2._0.Migrations
                     b.HasOne("Estacionamiento.Models.Cliente", "Dueño")
                         .WithMany("Vehiculos")
                         .HasForeignKey("ClienteID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Estacionamiento.Models.Estacionamiento", "Estacionamiento")
                         .WithMany("Plaza")
                         .HasForeignKey("EstacionamientoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Dueño");
