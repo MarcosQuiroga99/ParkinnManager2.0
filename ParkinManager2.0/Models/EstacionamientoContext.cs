@@ -66,7 +66,7 @@ namespace Estacionamiento.Models
             modelBuilder.Entity<Ticket>()
                 .Property(t => t.Tarifa)
                 .HasColumnType("decimal(18,2)");
-        }
+        } 
 
 
     }
