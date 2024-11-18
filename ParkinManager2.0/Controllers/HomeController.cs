@@ -6,7 +6,7 @@ namespace ParkinManager2._0.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction(nameof(Index), "Cliente");    
         }
     }
 }
