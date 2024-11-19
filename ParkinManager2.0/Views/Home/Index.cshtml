@@ -1,34 +1,27 @@
-﻿@model IEnumerable<Estacionamiento.Models.Estacionamiento> 
-
+﻿@model IEnumerable<Estacionamiento.Models.Estacionamiento>
 @{
-    ViewData["Title"] = "Inicio";
+    ViewBag.Title = "Inicio";
 }
 
-<h1>Bienvenido al Sistema de Estacionamiento</h1>
+<h2>Estacionamientos</h2>
 
 <!-- Formulario de búsqueda -->
 <form asp-action="Index" method="get">
-    <div>
-        <label for="searchTerm">Buscar Cliente o Vehículo:</label>
-        <input type="text" id="searchTerm" name="searchTerm" placeholder="Ingrese DNI o Patente" />
-        <button type="submit">Buscar</button>
-    </div>
+    <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Buscar cliente o vehículo" />
+    <button type="submit">Buscar</button>
 </form>
 
-@if (ViewBag.Message != null)
+@if (!string.IsNullOrEmpty(ViewBag.Message))
 {
-    <div>
-        <strong>@ViewBag.Message</strong>
-    </div>
+    <div>@ViewBag.Message</div>
 }
 
-<h2>Estacionamientos Disponibles</h2>
 <table>
     <thead>
         <tr>
             <th>Nombre</th>
             <th>Dirección</th>
-            <th>Plazas Disponibles</th>
+            <th>Capacidad</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -38,32 +31,9 @@
             <tr>
                 <td>@estacionamiento.Name</td>
                 <td>@estacionamiento.Direcion</td>
-                <td>@(estacionamiento.MaxPlaza - estacionamiento.Plaza.Count())</td>
+                <td>@estacionamiento.MaxPlaza</td>
                 <td>
-                    <a asp-action="Details" asp-controller="Estacionamiento" asp-route-id="@estacionamiento.Id">Ver Detalles</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h2>Clientes</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>DNI</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var cliente in Model.SelectMany(e => e.Clientes)) // Asegúrate de que esta relación sea correcta
-        {
-            <tr>
-                <td>@cliente.Nombre</td>
-                <td>@cliente.Dni</td>
-                <td>
-                    <a asp-action="Details" asp-controller="Cliente" asp-route-id="@cliente.Dni">Ver Detalles</a>
+                    <a asp-action="GoToEstacionamiento" asp-controller="Estacionamiento" asp-route-id="@estacionamiento.Id">Detalles</a>
                 </td>
             </tr>
         }

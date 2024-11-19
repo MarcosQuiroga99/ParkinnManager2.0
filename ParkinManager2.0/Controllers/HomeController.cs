@@ -27,7 +27,7 @@ namespace ParkinManager2._0.Controllers
                 if (cliente != null)
                 {
                     // Redirige a la vista de detalles del cliente
-                    return RedirectToAction("Details", "Cliente", new { id = cliente.Dni });
+                    return RedirectToAction("Details", "Cliente", new { id = cliente.Dni, searchTerm });
                 }
 
                 // Busca un vehículo por patente
@@ -35,7 +35,7 @@ namespace ParkinManager2._0.Controllers
                 if (vehiculo != null)
                 {
                     // Redirige a la vista de detalles del vehículo
-                    return RedirectToAction("Details", "Vehiculo", new { id = vehiculo.Patente });
+                    return RedirectToAction("Details", "Vehiculo", new { id = vehiculo.Patente, searchTerm });
                 }
 
                 // Si no se encuentra el cliente o vehículo, puedes mostrar un mensaje
@@ -45,8 +45,6 @@ namespace ParkinManager2._0.Controllers
             // Devuelve la vista de inicio con la lista de estacionamientos
             return View(estacionamientos);
         }
-
-        // Acción para redirigir a la vista de Estacionamiento
         public IActionResult GoToEstacionamiento(int id)
         {
             // Redirige a la acción Details del EstacionamientoController

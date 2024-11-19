@@ -1,11 +1,12 @@
-﻿@model Estacionamiento.Models.Cliente
+﻿@model Estacionamiento.Models.Estacionamiento
 @{
-    ViewBag.Title = "Detalles del Cliente";
+    ViewBag.Title = "Detalles del Estacionamiento";
 }
 
-<h2>@Model.Nombre @Model.Apellido</h2>
+<h2>@Model.Name</h2>
 
-<p><strong>DNI:</strong> @Model.Dni</p>
+<p><strong>Dirección:</strong> @Model.Direcion</p>
+<p><strong>Capacidad máxima:</strong> @Model.MaxPlaza</p>
 
 <!-- Formulario de búsqueda -->
 <form asp-action="Index" method="get">
@@ -13,7 +14,7 @@
     <button type="submit">Buscar</button>
 </form>
 
-<h3>Vehículos del Cliente</h3>
+<h3>Vehículos en el Estacionamiento</h3>
 <table>
     <thead>
         <tr>
@@ -23,7 +24,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var vehiculo in Model.Vehiculos)
+        @foreach (var vehiculo in Model.Plaza)
         {
             <tr>
                 <td>
@@ -36,25 +37,23 @@
     </tbody>
 </table>
 
-<h3>Tickets del Cliente</h3>
+<h3>Clientes en el Estacionamiento</h3>
 <table>
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Ingreso</th>
-            <th>Salida</th>
-            <th>Tarifa</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var ticket in Model.Tickets)
+        @foreach (var cliente in Model.Clientes)
         {
             <tr>
-                <td>@ticket.Id</td>
-                <td>@ticket.Ingreso.ToString("g")</td>
-                <td>@ticket.Salida.ToString("g")</td>
-                <td>@ticket.Tarifa?.ToString("C")</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Cliente" asp-route-id="@cliente.Dni">@cliente.Nombre</a>
+                </td>
+                <td>@cliente.Apellido</td>
             </tr>
         }
     </tbody>
-</table></div>
+</table>

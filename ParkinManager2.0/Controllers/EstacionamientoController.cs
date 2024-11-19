@@ -12,6 +12,7 @@ namespace ParkinManager2._0.Controllers
         {
             _context = context;
         }
+
         public IActionResult Details(int id)
         {
             var estacionamiento = _context.estacionamientos
