@@ -1,0 +1,31 @@
+﻿@model Estacionamiento.Models.Vehiculo
+
+<h2>Editar Vehículo</h2>
+
+<form asp-action="EditVehiculo" method="post">
+    <div class="form-group">
+        <label>Patente</label>
+        <input type="text" name="Patente" class="form-control" value="@Model.Patente" readonly />
+    </div>
+    <div class="form-group">
+        <label>Marca</label>
+        <input type="text" name="Marca" class="form-control" value="@Model.Marca" required />
+    </div>
+    <div class="form-group">
+        <label>Modelo</label>
+        <input type="text" name="Modelo" class="form-control" value="@Model.Modelo" required />
+    </div>
+    <div class="form-group">
+        <label>Tipo de Vehículo</label>
+        <select name="TipoDeVehiculo" class="form-control">
+            <option value="">Seleccione un tipo</option>
+            <option value="0" @(Model.TipoDeVehiculo == 0 ? "selected" : "")>Auto</option>
+            <option value="1" @(Model.TipoDeVehiculo == 1 ? "selected" : "")>Camioneta</option>
+            <option value="2" @(Model.TipoDeVehiculo == 2 ? "selected" : "")>Moto</option>
+        </select>
+    </div>
+    <input type="hidden" name="EstacionamientoId" value="@Model.EstacionamientoId" />
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+
+<a asp-action="Details" asp-controller="Estacionamiento" asp-route-id="@Model.EstacionamientoId" class="btn btn-secondary">Volver</a>

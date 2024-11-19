@@ -24,11 +24,58 @@ namespace ParkinManager2._0.Controllers
                 return NotFound();
             }
 
+            // Calcular plazas ocupadas y libres
+            var plazasOcupadas = estacionamiento.Plaza.Count();
+            var plazasLibres = estacionamiento.MaxPlaza - plazasOcupadas;
+
+            ViewBag.PlazasOcupadas = plazasOcupadas;
+            ViewBag.PlazasLibres = plazasLibres;
+
             return View(estacionamiento);
         }
-
-        // Acción para crear un vehículo
+        public IActionResult EditVehiculo(string patente)
+        {
+            var vehiculo = _context.vehiculos.Find(patente);
+            if (vehiculo == null)
+            {
+                return NotFound();
+            }
+            return View("EditVehiculo", vehiculo); // Asegúrate de tener una vista llamada EditVehiculo
+        }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditVehiculo(Vehiculo vehiculo)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(vehiculo);
+                    _context.SaveChanges();
+                    return RedirectToAction("Details", new { id = vehiculo.EstacionamientoId });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehiculoExists(vehiculo.Patente))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw; // Vuelve a lanzar la excepción si hay un error diferente
+                    }
+                }
+            }
+            return View(vehiculo);
+        }
+
+        private bool VehiculoExists(string patente)
+        {
+            return _context.vehiculos.Any(v => v.Patente == patente);
+        }
+    }
+    // Acción para crear un vehículo
+    [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Vehiculo vehiculo)
         {

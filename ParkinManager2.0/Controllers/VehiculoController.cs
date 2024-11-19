@@ -50,11 +50,10 @@ namespace ParkinManager2._0.Controllers
             {
                 _context.vehiculos.Add(vehiculo);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Estacionamiento", new { id = vehiculo.EstacionamientoId });
             }
             return View(vehiculo);
         }
-
         // GET: Vehiculo/Edit/ABC123
         public IActionResult Edit(string id)
         {
@@ -78,11 +77,31 @@ namespace ParkinManager2._0.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Update(vehiculo);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Update(vehiculo);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehiculoExists(vehiculo.Patente))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw; // Vuelve a lanzar la excepción si hay un error diferente
+                    }
+                }
+                return RedirectToAction("Details", "Estacionamiento", new { id = vehiculo.EstacionamientoId });
             }
             return View(vehiculo);
+        }
+
+        // Método auxiliar para verificar si el vehículo existe
+        private bool VehiculoExists(string patente)
+        {
+            return _context.vehiculos.Any(v => v.Patente == patente);
         }
 
         // GET: Vehiculo/Delete/ABC123
