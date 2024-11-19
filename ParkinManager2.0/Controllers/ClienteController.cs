@@ -1,7 +1,6 @@
-﻿using Estacionamiento.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
+﻿using Microsoft.AspNetCore.Mvc;
+using Estacionamiento.Models;
+using System.Linq;
 
 namespace ParkinManager2._0.Controllers
 {
@@ -15,9 +14,9 @@ namespace ParkinManager2._0.Controllers
         }
 
         // GET: Cliente
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var clientes = await _context.cliente.ToListAsync();
+            var clientes = _context.cliente.ToList(); // Obtener todos los clientes
             return View(clientes);
         }
 
@@ -30,21 +29,21 @@ namespace ParkinManager2._0.Controllers
         // POST: Cliente/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Cliente cliente)
+        public IActionResult Create(Cliente cliente)
         {
             if (ModelState.IsValid)
             {
                 _context.cliente.Add(cliente);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
         }
 
         // GET: Cliente/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
-            var cliente = await _context.cliente.FindAsync(id);
+            var cliente = _context.cliente.Find(id);
             if (cliente == null)
             {
                 return NotFound();
@@ -55,7 +54,7 @@ namespace ParkinManager2._0.Controllers
         // POST: Cliente/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Cliente cliente)
+        public IActionResult Edit(int id, Cliente cliente)
         {
             if (id != cliente.Dni)
             {
@@ -64,55 +63,11 @@ namespace ParkinManager2._0.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(cliente);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClienteExists(cliente.Dni))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.cliente.Update(cliente);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
         }
-
-        // GET: Cliente/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-            var cliente = await _context.cliente
-                .FirstOrDefaultAsync(m => m.Dni == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
-        }
-
-        // POST: Cliente/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var cliente = await _context.cliente.FindAsync(id);
-            _context.cliente.Remove(cliente);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClienteExists(int id)
-        {
-            return _context.cliente.Any(e => e.Dni == id);
-        }
     }
 }
-
