@@ -69,5 +69,28 @@ namespace ParkinManager2._0.Controllers
             }
             return View(cliente);
         }
+        public IActionResult Delete(int id)
+        {
+            var cliente = _context.cliente.Find(id);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            return View(cliente);
+        }
+
+        // POST: Cliente/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var cliente = _context.cliente.Find(id);
+            if (cliente != null)
+            {
+                _context.cliente.Remove(cliente);
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

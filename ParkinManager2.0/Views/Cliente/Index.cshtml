@@ -6,17 +6,12 @@
 
 <h2>Lista de Clientes</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Agregar Nuevo Cliente</a>
-</p>
-
 <table class="table">
     <thead>
         <tr>
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>User Name</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -27,11 +22,13 @@
                 <td>@cliente.Dni</td>
                 <td>@cliente.Nombre</td>
                 <td>@cliente.Apellido</td>
-                <td>@cliente.UserName</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@cliente.Dni" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@cliente.Dni" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<a asp-action="Create" class="btn btn-primary">Agregar Cliente</a>
