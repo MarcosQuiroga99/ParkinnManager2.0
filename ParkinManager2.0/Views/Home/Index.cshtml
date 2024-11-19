@@ -1,27 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@model IEnumerable<Estacionamiento.Models.Estacionamiento> 
+
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<h1>Bienvenido a la Aplicación de Estacionamiento</h1>
+<h1>Bienvenido al Sistema de Estacionamiento</h1>
 
-<form method="get" asp-action="Index">
+<!-- Formulario de búsqueda -->
+<form asp-action="Index" method="get">
     <div>
-        <label for="searchTerm">Buscar por DNI (Cliente) o Patente (Vehículo):</label>
-        <input type="text" id="searchTerm" name="searchTerm" required />
+        <label for="searchTerm">Buscar Cliente o Vehículo:</label>
+        <input type="text" id="searchTerm" name="searchTerm" placeholder="Ingrese DNI o Patente" />
         <button type="submit">Buscar</button>
     </div>
 </form>
 
-@if (!string.IsNullOrEmpty(ViewBag.Message))
+@if (ViewBag.Message != null)
 {
-    <div style="color: red;">
-        @ViewBag.Message
+    <div>
+        <strong>@ViewBag.Message</strong>
     </div>
 }
 
-<p>
-    <a asp-controller="Cliente" asp-action="Index">Ver Clientes</a>
-</p>
-<p>
-    <a asp-controller="Estacionamiento" asp-action="Index">Ver Estacionamientos</a>
-</p>
+<h2>Estacionamientos Disponibles</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Plazas Disponibles</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estacionamiento in Model)
+        {
+            <tr>
+                <td>@estacionamiento.Name</td>
+                <td>@estacionamiento.Direcion</td>
+                <td>@(estacionamiento.MaxPlaza - estacionamiento.Plaza.Count())</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Estacionamiento" asp-route-id="@estacionamiento.Id">Ver Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Clientes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>DNI</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cliente in Model.SelectMany(e => e.Clientes)) // Asegúrate de que esta relación sea correcta
+        {
+            <tr>
+                <td>@cliente.Nombre</td>
+                <td>@cliente.Dni</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Cliente" asp-route-id="@cliente.Dni">Ver Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

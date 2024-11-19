@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Estacionamiento.Models;
+using Estacionamiento.Models; // Asegúrate de que este espacio de nombres sea correcto
 using System.Linq;
 
 namespace ParkinManager2._0.Controllers
@@ -13,22 +13,28 @@ namespace ParkinManager2._0.Controllers
             _context = context;
         }
 
+        // Acción para mostrar la vista de inicio
         public IActionResult Index(string searchTerm)
         {
-            // Realiza la búsqueda si hay un término de búsqueda
+            // Inicializa una lista de estacionamientos
+            var estacionamientos = _context.estacionamientos.ToList();
+
+            // Si hay un término de búsqueda, intenta buscar un cliente o vehículo
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                // Intenta buscar un cliente por DNI
+                // Busca un cliente por DNI
                 var cliente = _context.cliente.FirstOrDefault(c => c.Dni.ToString() == searchTerm);
                 if (cliente != null)
                 {
+                    // Redirige a la vista de detalles del cliente
                     return RedirectToAction("Details", "Cliente", new { id = cliente.Dni });
                 }
 
-                // Intenta buscar un vehículo por patente
+                // Busca un vehículo por patente
                 var vehiculo = _context.vehiculos.FirstOrDefault(v => v.Patente == searchTerm);
                 if (vehiculo != null)
                 {
+                    // Redirige a la vista de detalles del vehículo
                     return RedirectToAction("Details", "Vehiculo", new { id = vehiculo.Patente });
                 }
 
@@ -36,7 +42,15 @@ namespace ParkinManager2._0.Controllers
                 ViewBag.Message = "No se encontró ningún cliente o vehículo con ese término de búsqueda.";
             }
 
-            return View();
+            // Devuelve la vista de inicio con la lista de estacionamientos
+            return View(estacionamientos);
+        }
+
+        // Acción para redirigir a la vista de Estacionamiento
+        public IActionResult GoToEstacionamiento(int id)
+        {
+            // Redirige a la acción Details del EstacionamientoController
+            return RedirectToAction("Details", "Estacionamiento", new { id });
         }
     }
 }
