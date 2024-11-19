@@ -6,7 +6,8 @@ namespace ParkinManager2._0.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(Index), "Cliente");    
+            return View(); // Mostrar una vista principal con enlaces a Cliente y Estacionamiento
         }
+
     }
 }
