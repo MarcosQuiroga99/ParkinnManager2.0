@@ -4,6 +4,21 @@
 
 <h1>Bienvenido a la Aplicación de Estacionamiento</h1>
 
+<form method="get" asp-action="Index">
+    <div>
+        <label for="searchTerm">Buscar por DNI (Cliente) o Patente (Vehículo):</label>
+        <input type="text" id="searchTerm" name="searchTerm" required />
+        <button type="submit">Buscar</button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div style="color: red;">
+        @ViewBag.Message
+    </div>
+}
+
 <p>
     <a asp-controller="Cliente" asp-action="Index">Ver Clientes</a>
 </p>

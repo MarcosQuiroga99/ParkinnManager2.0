@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Estacionamiento.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ParkinManager2._0.Controllers
 {
@@ -91,6 +92,17 @@ namespace ParkinManager2._0.Controllers
                 _context.SaveChanges();
             }
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Details(int id)
+        {
+            var cliente = _context.cliente
+                .FirstOrDefault(c => c.Dni == id);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            return View(cliente);
         }
     }
 }
