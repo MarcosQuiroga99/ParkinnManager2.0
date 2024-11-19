@@ -49,8 +49,9 @@ namespace ParkinManager2._0.Controllers
         // POST: Estacionamiento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Estacionamiento estacionamiento)
+        public IActionResult Create(EstacionamientoContext estacionamiento)
         {
+          
             if (ModelState.IsValid)
             {
                 _context.estacionamientos.Add(estacionamiento);
