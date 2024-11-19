@@ -11,9 +11,11 @@ namespace Estacionamiento.Models
         public DbSet<Administrador> administradors { get; set; }    
         public DbSet<Plan> Plan { get; set; }
         public DbSet<Ticket> ticket { get; set; }
-        
         public DbSet<Vehiculo> vehiculos { get; set; }
-
+        public EstacionamientoContext(DbContextOptions<EstacionamientoContext> options)
+    : base(options)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=DESKTOP-CUKE023\\MSSQLSERVER01;Initial Catalog=EstacionamientoDB;Encrypt=true;TrustServerCertificate=true;Integrated Security=True;");

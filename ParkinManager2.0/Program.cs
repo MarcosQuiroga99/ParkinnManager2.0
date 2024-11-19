@@ -1,11 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Estacionamiento.Models; // Asegúrate de incluir este espacio de nombres
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar servicios al contenedor.
 builder.Services.AddControllersWithViews();
+
+// Registrar el contexto de la base de datos
+builder.Services.AddDbContext<EstacionamientoContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurar el pipeline de solicitud HTTP.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
