@@ -13,7 +13,18 @@ namespace ParkinManager2._0.Controllers
         {
             _context = context;
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Estacionamiento.Models.Estacionamiento estacionamiento) // Usa el nombre completo aquí
+        {
+            if (ModelState.IsValid)
+            {
+                _context.estacionamientos.Add(estacionamiento);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(estacionamiento);
+        }
         // GET: Estacionamiento
         public IActionResult Index()
         {
@@ -49,9 +60,9 @@ namespace ParkinManager2._0.Controllers
         // POST: Estacionamiento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EstacionamientoContext estacionamiento)
+        [HttpPost]
+        public IActionResult CreateEstacionamiento(Estacionamiento.Models.Estacionamiento estacionamiento)
         {
-          
             if (ModelState.IsValid)
             {
                 _context.estacionamientos.Add(estacionamiento);
@@ -75,7 +86,7 @@ namespace ParkinManager2._0.Controllers
         // POST: Estacionamiento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Estacionamiento estacionamiento)
+        public IActionResult Edit(int id, Estacionamiento.Models.Estacionamiento estacionamiento)
         {
             if (id != estacionamiento.Id)
             {
@@ -104,6 +115,7 @@ namespace ParkinManager2._0.Controllers
             }
             return View(estacionamiento);
         }
+
 
         // GET: Estacionamiento/Delete/5
         public IActionResult Delete(int id)
