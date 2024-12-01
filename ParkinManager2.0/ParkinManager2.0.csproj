@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Estacionamiento\" />
+    <Folder Include="Views\Vehiculo\" />
   </ItemGroup>
 
 </Project>
